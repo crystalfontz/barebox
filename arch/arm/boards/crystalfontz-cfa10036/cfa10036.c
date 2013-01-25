@@ -92,7 +92,8 @@ static struct i2c_gpio_platform_data i2c_gpio_pdata = {
 
 static int cfa10036_mem_init(void)
 {
-	arm_add_mem_device("ram0", IMX_MEMORY_BASE, 128 * 1024 * 1024);
+	arm_add_mem_device("ram0", IMX_MEMORY_BASE,
+			   get_ram_size((volatile long int *)IMX_MEMORY_BASE, SZ_256M));
 
 	return 0;
 }
