@@ -89,5 +89,7 @@ struct envfs_super {
 #error "__BYTE_ORDER must be __LITTLE_ENDIAN or __BIG_ENDIAN"
 #endif
 
+int envfs_register_partition(const char *devname, unsigned int partnr);
+
 #endif /* _ENVFS_H */
 
