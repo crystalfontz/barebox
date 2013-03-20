@@ -29,6 +29,10 @@ enum board_type {
 	BOARD_ID_CFA10036 = 0,
 	BOARD_ID_CFA10037 = 1,
 	BOARD_ID_CFA10049 = 2,
+	BOARD_ID_CFA10055 = 3,
+	BOARD_ID_CFA10056 = 4,
+	BOARD_ID_CFA10057 = 5,
+	BOARD_ID_CFA10058 = 6,
 };
 
 struct cfa_eeprom_info {
