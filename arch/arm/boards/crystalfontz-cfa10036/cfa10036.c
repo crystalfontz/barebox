@@ -22,6 +22,7 @@
 #include <fec.h>
 #include <gpio.h>
 #include <init.h>
+#include <led.h>
 #include <mci.h>
 #include <io.h>
 #include <net.h>
@@ -69,6 +70,9 @@ static const uint32_t cfa10036_pads[] = {
 	/* i2c0 */
 	AUART0_TX_GPIO | VE_3_3V | PULLUP(1),
 	AUART0_RX_GPIO | VE_3_3V | PULLUP(1),
+	
+	/* power LED */
+	AUART1_RX_GPIO | VE_3_3V | GPIO_OUT | GPIO_VALUE(0),
 };
 
 static struct mxs_mci_platform_data mci_pdata = {
