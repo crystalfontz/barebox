@@ -85,6 +85,7 @@ static struct mxs_mci_platform_data mci_pdata = {
 static struct i2c_board_info cfa10036_i2c_devices[] = {
 	{
 		I2C_BOARD_INFO("24c02", 0x50)
+		I2C_BOARD_INFO("24c02", 0x78)
 	},
 };
 
