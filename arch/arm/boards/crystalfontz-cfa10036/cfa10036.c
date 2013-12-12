@@ -70,9 +70,14 @@ static const uint32_t cfa10036_pads[] = {
 	/* i2c0 */
 	AUART0_TX_GPIO | VE_3_3V | PULLUP(1),
 	AUART0_RX_GPIO | VE_3_3V | PULLUP(1),
-	
-	/* power LED */
-	AUART1_RX_GPIO | VE_3_3V | GPIO_OUT | GPIO_VALUE(0),
+};
+
+static struct gpio_led leds[] = {
+        {
+                .gpio = AUART1_RX_GPIO,
+                .active_low = 1,
+                .led.name = "power",
+        },
 };
 
 static struct mxs_mci_platform_data mci_pdata = {
@@ -85,7 +90,7 @@ static struct mxs_mci_platform_data mci_pdata = {
 static struct i2c_board_info cfa10036_i2c_devices[] = {
 	{
 		I2C_BOARD_INFO("24c02", 0x50),
-		I2C_BOARD_INFO("24c02", 0x78),
+	/*	I2C_BOARD_INFO("24c02", 0x78), */
 	},
 };
 
@@ -140,6 +145,9 @@ static int cfa10036_devices_init(void)
 
 	add_generic_device("ocotp", 0, NULL, IMX_OCOTP_BASE, SZ_8K,
 			   IORESOURCE_MEM, NULL);
+
+	for (i = 0; i < ARRAY_SIZE(leds); i++)
+			led_gpio_register(&leds[i]);
 
 	i2c_register_board_info(0, cfa10036_i2c_devices, ARRAY_SIZE(cfa10036_i2c_devices));
 	add_generic_device_res("i2c-gpio", 0, NULL, 0, &i2c_gpio_pdata);
