@@ -442,7 +442,7 @@ out:
 
 int envfs_register_partition(const char *devname, unsigned int partnr)
 {
-	struct cdev *cdev, *part;
+	struct cdev *cdev;
 	char *partname;
 
 	if (!devname)
@@ -461,14 +461,8 @@ int envfs_register_partition(const char *devname, unsigned int partnr)
 		return -ENODEV;
 	}
 
-	part = devfs_add_partition(partname, 0, cdev->size,
+	return devfs_add_partition(partname, 0, cdev->size,
 						DEVFS_PARTITION_FIXED, "env0");
-	if (part)
-		return 0;
-
-	free(partname);
-
-	return -EINVAL;
 }
 EXPORT_SYMBOL(envfs_register_partition);
 #endif

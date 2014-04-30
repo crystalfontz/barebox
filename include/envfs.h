@@ -90,41 +90,9 @@ struct envfs_super {
 #error "__BYTE_ORDER must be __LITTLE_ENDIAN or __BIG_ENDIAN"
 #endif
 
-#define ENV_FLAG_NO_OVERWRITE	(1 << 0)
-int envfs_load(const char *filename, const char *dirname, unsigned flags);
-int envfs_save(const char *filename, const char *dirname);
-int envfs_load_from_buf(void *buf, int len, const char *dir, unsigned flags);
-
-/* defaults to /dev/env0 */
-#ifdef CONFIG_ENV_HANDLING
-void default_environment_path_set(char *path);
-char *default_environment_path_get(void);
-#else
-static inline void default_environment_path_set(char *path)
-{
-}
-
-static inline char *default_environment_path_get(void)
-{
-	return NULL;
-}
-#endif
-
 int envfs_register_partition(const char *devname, unsigned int partnr);
 
-#ifdef CONFIG_DEFAULT_ENVIRONMENT
-void defaultenv_append(void *buf, unsigned int size, const char *name);
-int defaultenv_load(const char *dir, unsigned flags);
-#else
-static inline void defaultenv_append(void *buf, unsigned int size, const char *name)
-{
-}
-
-static inline int defaultenv_load(const char *dir, unsigned flags)
-{
-	return -ENOSYS;
-}
-#endif
+#endif /* _ENVFS_H */
 
 /*
  * Append environment directory compiled into barebox with bbenv-y

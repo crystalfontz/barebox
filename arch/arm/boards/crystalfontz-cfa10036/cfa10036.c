@@ -108,7 +108,8 @@ long cfa10036_get_ram_size(void)
 
 static int cfa10036_mem_init(void)
 {
-	arm_add_mem_device("ram0", IMX_MEMORY_BASE, cfa10036_get_ram_size());
+	arm_add_mem_device("ram0", IMX_MEMORY_BASE,
+			   get_ram_size((volatile long int *)IMX_MEMORY_BASE, SZ_256M));
 
 	return 0;
 }

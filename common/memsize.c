@@ -19,6 +19,9 @@
 
 #include <common.h>
 #include <config.h>
+
+#include <asm-generic/sections.h>
+
 #if defined (__PPC__) && !defined (__SANDBOX__)
 /*
  * At least on G2 PowerPC cores, sequential accesses to non-existent
@@ -48,6 +51,15 @@ long get_ram_size(volatile long *base, long maxsize)
 
 	for (cnt = (maxsize / sizeof (long)) >> 1; cnt > 0; cnt >>= 1) {
 		addr = base + cnt;	/* pointer arith! */
+
+		/*
+		 * If we run get_ram_size from RAM, avoid poking into
+		 * the Barebox code, and if the RAM at these address
+		 * doesn't work, we will have trouble anyway...
+		 */
+		if (addr > (long*)_text && addr < (long*)__bss_stop)
+			continue;
+
 		sync ();
 		save[i++] = *addr;
 		sync ();
@@ -68,6 +80,9 @@ long get_ram_size(volatile long *base, long maxsize)
 		*addr = save[i];
 		for (cnt = 1; cnt < maxsize / sizeof(long); cnt <<= 1) {
 			addr  = base + cnt;
+			if (addr > (long*)_text && addr < (long*)__bss_stop)
+				continue;
+
 			sync ();
 			*addr = save[--i];
 		}
@@ -76,6 +91,9 @@ long get_ram_size(volatile long *base, long maxsize)
 
 	for (cnt = 1; cnt < maxsize / sizeof (long); cnt <<= 1) {
 		addr = base + cnt;	/* pointer arith! */
+		if (addr > (long*)_text && addr < (long*)__bss_stop)
+			continue;
+
 		val = *addr;
 		*addr = save[--i];
 		if (val != ~cnt) {
@@ -84,6 +102,9 @@ long get_ram_size(volatile long *base, long maxsize)
 			 */
 			for (cnt <<= 1; cnt < maxsize / sizeof (long); cnt <<= 1) {
 				addr  = base + cnt;
+				if (addr > (long*)_text && addr < (long*)__bss_stop)
+					continue;
+
 				*addr = save[--i];
 			}
 			return (size);
