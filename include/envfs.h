@@ -143,3 +143,4 @@ static inline int defaultenv_load(const char *dir, unsigned flags)
 	}
 
 #endif /* _ENVFS_H */
+

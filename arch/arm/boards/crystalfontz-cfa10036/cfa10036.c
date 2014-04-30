@@ -33,7 +33,7 @@
 
 #include <mach/clock.h>
 #include <mach/imx-regs.h>
-#include <mach/iomux.h>
+#include <mach/iomux-imx.h>
 #include <mach/mci.h>
 
 #include <asm/armlinux.h>
@@ -122,6 +122,12 @@ static int cfa10036_devices_init(void)
 	for (i = 0; i < ARRAY_SIZE(cfa10036_pads); i++)
 		imx_gpio_mode(cfa10036_pads[i]);
 
+	/* enable IOCLK0 to run at the PLL frequency */
+	imx_set_ioclk(0, 480000000);
+	/* run the SSP unit clock at 100 MHz */
+	imx_set_sspclk(0, 100000000, 1);
+
+	armlinux_set_bootparams((void *)IMX_MEMORY_BASE + 0x100);
 	armlinux_set_architecture(MACH_TYPE_CFA10036);
 
 	add_generic_device("mxs_mci", 0, NULL, IMX_SSP0_BASE, SZ_8K,
