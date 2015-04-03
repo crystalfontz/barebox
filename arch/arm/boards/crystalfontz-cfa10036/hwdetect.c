@@ -33,6 +33,8 @@ enum board_type {
 	BOARD_ID_CFA10056 = 4,
 	BOARD_ID_CFA10057 = 5,
 	BOARD_ID_CFA10058 = 6,
+	BOARD_ID_CFA10065-1 = 7,
+	BOARD_ID_CFA10065-2 = 8,
 };
 
 struct cfa_eeprom_info {
@@ -98,6 +100,12 @@ void cfa10036_detect_hw(void)
 		break;
 	case BOARD_ID_CFA10058:
 		board_name = "cfa10058";
+		break;
+	case BOARD_ID_CFA10065-1:
+		board_name = "cfa10065-1";
+		break;
+	case BOARD_ID_CFA10065-2:
+		board_name = "cfa10065-2";
 		break;
 	default:
 		pr_err("Board ID not supported\n");
